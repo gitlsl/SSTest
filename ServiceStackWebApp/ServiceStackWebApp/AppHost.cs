@@ -6,6 +6,8 @@ using System.Web;
 using System.Web.Mvc;
 using Funq;
 using ServiceStack;
+using ServiceStack.Logging;
+using ServiceStack.Logging.NLogger;
 using ServiceStack.Mvc;
 using ServiceStackWebApp.ServiceInterface;
 
@@ -36,6 +38,10 @@ namespace ServiceStackWebApp
 
             //Set MVC to use the same Funq IOC as ServiceStack
             ControllerBuilder.Current.SetControllerFactory(new FunqControllerFactory(container));
+
+            LogManager.LogFactory = new NLogFactory();
+            ILog log = LogManager.GetLogger("xx");
+            log.Debug("xx");
         }
     }
 }
