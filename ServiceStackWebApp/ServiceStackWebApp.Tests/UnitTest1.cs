@@ -14,7 +14,7 @@ namespace ServiceStackWebApp.Tests
 
         public UnitTests()
         {
-            appHost = new BasicAppHost(typeof(MyServices).Assembly)
+            appHost = new BasicAppHost(typeof(TestServices).Assembly)
             {
                 ConfigureContainer = container =>
                 {
@@ -33,11 +33,11 @@ namespace ServiceStackWebApp.Tests
         [Test]
         public void TestMethod1()
         {
-            var service = appHost.Container.Resolve<MyServices>();
+            var service = appHost.Container.Resolve<TestServices>();
 
-            var response = (HelloResponse)service.Any(new Hello { Name = "World" });
+            var response = (HelloResponse)service.Any(new Test { Name = "World" });
 
-            Assert.That(response.Result, Is.EqualTo("Hello, World!"));
+            Assert.That(response.Result, Is.EqualTo("Test, World!"));
         }
     }
 }

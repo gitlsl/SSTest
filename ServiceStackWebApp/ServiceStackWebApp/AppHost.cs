@@ -20,7 +20,7 @@ namespace ServiceStackWebApp
         /// Base constructor requires a Name and Assembly where web service implementation is located
         /// </summary>
         public AppHost()
-            : base("ServiceStackWebApp", typeof(MyServices).Assembly) { }
+            : base("ServiceStackWebApp", typeof(TestServices).Assembly) { }
 
         /// <summary>
         /// Application specific configuration

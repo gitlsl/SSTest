@@ -6,14 +6,14 @@ using ServiceStack;
 
 namespace ServiceStackWebApp.ServiceModel
 {
-    [Route("/hello")]
-    [Route("/hello/{Name}")]
-    public class Hello : IReturn<HelloResponse>
+    [Route("/Test")]
+    [Route("/Test/{Name}")]
+    public class Test : IReturn<TestResponse>
     {
         public string Name { get; set; }
     }
 
-    public class HelloResponse
+    public class TestResponse
     {
         public string Result { get; set; }
     }

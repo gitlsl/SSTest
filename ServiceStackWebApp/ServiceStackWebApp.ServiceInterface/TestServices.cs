@@ -7,11 +7,11 @@ using ServiceStackWebApp.ServiceModel;
 
 namespace ServiceStackWebApp.ServiceInterface
 {
-    public class MyServices : Service
+    public class TestServices : Service
     {
-        public object Any(Hello request)
+        public object Any(Test request)
         {
-            return new HelloResponse { Result = "Hello, {0}!".Fmt(request.Name) };
+            return new TestResponse { Result = "Test, {0}!".Fmt(request.Name) };
         }
     }
 }
