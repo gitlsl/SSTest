@@ -6,11 +6,13 @@ using System.Web;
 using System.Web.Mvc;
 using Funq;
 using ServiceStack;
+using ServiceStack.Data;
 using ServiceStack.Logging;
 using ServiceStack.Logging.NLogger;
 using ServiceStack.Mvc;
+using ServiceStack.OrmLite;
 using ServiceStackWebApp.ServiceInterface;
-
+using ServiceStackWebApp.ServiceModel;
 
 namespace ServiceStackWebApp
 {
@@ -38,6 +40,19 @@ namespace ServiceStackWebApp
 
             //Set MVC to use the same Funq IOC as ServiceStack
             ControllerBuilder.Current.SetControllerFactory(new FunqControllerFactory(container));
+
+            var path = "~/App_Data/db.sqlite".MapHostAbsolutePath();
+            container.Register<IDbConnectionFactory>(c => new OrmLiteConnectionFactory(path, SqliteDialect.Provider));
+            using (var db = container.Resolve<IDbConnectionFactory>().Open())
+            {
+                db.CreateTableIfNotExists<ShopItem>();
+            }
+
+
+            /*
+                         private static readonly ILog Log = LogManager.GetLogger(typeof(OrmLiteWriteCommandExtensions));
+                         不想 sql 日志输出的话 OrmLiteWriteCommandExtensions  这个对象 干掉
+            */
 
             LogManager.LogFactory = new NLogFactory();
             ILog log = LogManager.GetLogger("xx");
