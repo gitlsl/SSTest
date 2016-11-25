@@ -13,18 +13,39 @@ namespace ServiceStackWebApp.ServiceInterface
 {
     public class ShopItemServices : Service
     {
+        public ILog Log { get; set; }
+       
         public object Any(NewShopItem request)
         {
-            ILog log = LogManager.GetLogger("Service");
-            log.Warn(request.Dump());
-            
+            Log.Debug("haha");
+            if (request.Name.IndexOf("q") > 0)
+            {
+                throw new Exception("qqq");
+            }
 
-            var item  = request.ConvertTo<ShopItem>();
 
-            item.CreateTime = DateTime.Now;
-            Db.Insert(item);
-            Db.Insert(item,true);
-            return "xx";
+            var item  = request.ConvertTo<SoftInfo>();
+            item.Auther = "liu";
+            item.Guid = Guid.NewGuid().ToString("N");
+            item.Id = Db.Insert(item, true);
+
+            SoftKey key = new SoftKey()
+            {
+                Auther = item.Auther,
+                KeyType = SoftKeyType.Year,
+                KeyValue = 22,
+                SoftGuid = item.Guid,
+                Key = Guid.NewGuid().ToString("N")
+        };
+            Db.Insert(key);
+            Response.AddHeader("result", "ok");
+
+          
+            return new NewShopItemResponse()
+            {
+                Guid = item.Guid,
+                Id = item.Id
+            };
         }
     }
 }

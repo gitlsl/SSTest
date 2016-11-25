@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using ServiceStack.Logging;
 using ServiceStack.Mvc;
+using ServiceStackWebApp.ServiceInterface;
 
 namespace ServiceStackWebApp.Controllers
 {
@@ -14,6 +15,8 @@ namespace ServiceStackWebApp.Controllers
         public ActionResult Index()
         {
             log.Debug("xq hlog");
+            var service = ResolveService<ShopItemServices>();
+           // service.Any(null);
             return View();
         }
 

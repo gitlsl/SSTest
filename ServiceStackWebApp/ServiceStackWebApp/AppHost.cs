@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using Funq;
 using ServiceStack;
+using ServiceStack.Auth;
 using ServiceStack.Data;
 using ServiceStack.Logging;
 using ServiceStack.Logging.NLogger;
@@ -34,28 +35,44 @@ namespace ServiceStackWebApp
             {
                 HandlerFactoryPath = "api",
             });
+            LogManager.LogFactory = new NLogFactory();
             //Config examples
             //this.Plugins.Add(new PostmanFeature());
             //this.Plugins.Add(new CorsFeature());
+            Plugins.Add(new AuthFeature(() => new UserSession(),
+                new IAuthProvider[] {
+                    new CredentialsAuthProvider(),
+    
+                })
+                {
+                    HtmlRedirect = "~/",
+                    IncludeRegistrationService = true,
+                    MaxLoginAttempts = 5,
+                });
+            var path = "~/App_Data/db.sqlite".MapHostAbsolutePath();
+            container.Register<IDbConnectionFactory>(c => new OrmLiteConnectionFactory(path, SqliteDialect.Provider));
+            container.Register<IUserAuthRepository>(c =>
+               new OrmLiteAuthRepository(c.Resolve<IDbConnectionFactory>()));
+
+            container.Resolve<IUserAuthRepository>().InitSchema();
+            using (var db = container.Resolve<IDbConnectionFactory>().Open())
+            {
+                db.DropAndCreateTable<SoftInfo>();
+                db.DropAndCreateTable<SoftKey>();
+                db.DropAndCreateTable<UserInfo>();
+            }
+            /*
+                private static readonly ILog Log = LogManager.GetLogger(typeof(OrmLiteWriteCommandExtensions));
+                不想 sql 日志输出的话 OrmLiteWriteCommandExtensions  这个对象 干掉
+            */
+
 
             //Set MVC to use the same Funq IOC as ServiceStack
             ControllerBuilder.Current.SetControllerFactory(new FunqControllerFactory(container));
 
-            var path = "~/App_Data/db.sqlite".MapHostAbsolutePath();
-            container.Register<IDbConnectionFactory>(c => new OrmLiteConnectionFactory(path, SqliteDialect.Provider));
-            using (var db = container.Resolve<IDbConnectionFactory>().Open())
-            {
-                db.CreateTableIfNotExists<ShopItem>();
-            }
+            container.Register<ILog>(c => LogManager.GetLogger("log"));
 
-
-            /*
-                         private static readonly ILog Log = LogManager.GetLogger(typeof(OrmLiteWriteCommandExtensions));
-                         不想 sql 日志输出的话 OrmLiteWriteCommandExtensions  这个对象 干掉
-            */
-
-            LogManager.LogFactory = new NLogFactory();
-            ILog log = LogManager.GetLogger("xx");
+            ILog log = container.Resolve<ILog>();
             log.Debug("xx");
         }
     }
