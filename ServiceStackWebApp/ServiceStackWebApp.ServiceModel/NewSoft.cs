@@ -7,7 +7,8 @@ using ServiceStack;
 
 namespace ServiceStackWebApp.ServiceModel
 {
-    public class NewShopItem:IReturn<NewShopItemResponse>
+    [Route("/s/add")]
+    public class NewSoft : IReturn<NewSoftResponse>
     {
         public string Name { get; set; }
         public string AliseName { get; set; }
@@ -18,7 +19,7 @@ namespace ServiceStackWebApp.ServiceModel
         public string Desc { get; set; }
     }
 
-    public class NewShopItemResponse:IHasResponseStatus
+    public class NewSoftResponse : IHasResponseStatus
     {
         public long? Id { get; set; }
         public string Guid { get; set; }

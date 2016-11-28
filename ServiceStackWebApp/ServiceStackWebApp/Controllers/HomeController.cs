@@ -15,7 +15,7 @@ namespace ServiceStackWebApp.Controllers
         public ActionResult Index()
         {
             log.Debug("xq hlog");
-            var service = ResolveService<ShopItemServices>();
+            var service = ResolveService<SoftServices>();
            // service.Any(null);
             return View();
         }

@@ -11,11 +11,11 @@ using ServiceStackWebApp.ServiceModel;
 
 namespace ServiceStackWebApp.ServiceInterface
 {
-    public class ShopItemServices : Service
+    public class SoftServices : Service
     {
         public ILog Log { get; set; }
        
-        public object Any(NewShopItem request)
+        public object Any(NewSoft request)
         {
             Log.Debug("haha");
             if (request.Name.IndexOf("q") > 0)
@@ -41,7 +41,7 @@ namespace ServiceStackWebApp.ServiceInterface
             Response.AddHeader("result", "ok");
 
           
-            return new NewShopItemResponse()
+            return new NewSoftResponse()
             {
                 Guid = item.Guid,
                 Id = item.Id
