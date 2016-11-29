@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using Funq;
 using ServiceStack;
+using ServiceStack.Api.Swagger;
 using ServiceStack.Auth;
 using ServiceStack.Data;
 using ServiceStack.Logging;
@@ -40,16 +41,21 @@ namespace ServiceStackWebApp
             //this.Plugins.Add(new PostmanFeature());
             //this.Plugins.Add(new CorsFeature());
             Plugins.Add(new AuthFeature(() => new UserSession(),
-                new IAuthProvider[] {
-                    new CredentialsAuthProvider(),
-    
-                })
+                    new IAuthProvider[]
+                    {
+                        new CredentialsAuthProvider(),
+
+                    })
                 {
                     HtmlRedirect = "~/",
                     IncludeRegistrationService = true,
                     MaxLoginAttempts = 5,
-                });
-            var path = "~/App_Data/db.sqlite".MapHostAbsolutePath();
+                }
+            );
+            Plugins.Add(new SwaggerFeature());
+
+
+                var path = "~/App_Data/db.sqlite".MapHostAbsolutePath();
             container.Register<IDbConnectionFactory>(c => new OrmLiteConnectionFactory(path, SqliteDialect.Provider));
             container.Register<IUserAuthRepository>(c =>
                new OrmLiteAuthRepository(c.Resolve<IDbConnectionFactory>()));
