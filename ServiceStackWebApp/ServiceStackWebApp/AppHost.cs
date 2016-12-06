@@ -40,7 +40,7 @@ namespace ServiceStackWebApp
             //Config examples
             //this.Plugins.Add(new PostmanFeature());
             //this.Plugins.Add(new CorsFeature());
-            Plugins.Add(new AuthFeature(() => new UserSession(),
+            Plugins.Add(new AuthFeature(() => new USession(),
                     new IAuthProvider[]
                     {
                         new CredentialsAuthProvider(),

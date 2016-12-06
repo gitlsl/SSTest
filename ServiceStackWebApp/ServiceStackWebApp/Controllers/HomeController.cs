@@ -10,33 +10,15 @@ using ServiceStackWebApp.ServiceInterface;
 
 namespace ServiceStackWebApp.Controllers
 {
-    public class HomeController : ServiceStackController
+    public class HomeController : BaseController
     {
         private ILog log = LogManager.GetLogger("HomeController");
         public ActionResult Index()
         {
             log.Debug("come in  HomeController");
+        
+      
           
-            // service.Any(null);
-            var sessionKey = SessionFeature.GetSessionKey();
-            if (sessionKey == null)
-            {
-                log.Debug("it is first time");
-               
-            }
-
-
-            var userSession = SessionFeature.GetOrCreateSession<UserSession>();
-            // or SessionFeature.GetOrCreateSession<CustomUserSession>(CacheClient); 
-            log.Debug(userSession.Address);
-            // modifying User Session
-            userSession.Address = "USA";
-
-            // saving User Session
-            var setResult = Cache.Set<UserSession>(SessionFeature.GetSessionKey(userSession.Id), userSession);
-            log.Debug("cache set:"+ setResult);
-            // Cache.CacheSet(sessionKey, userSession, TimeSpan.FromDays(22));
-
             return View();
         }
 

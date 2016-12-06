@@ -7,7 +7,7 @@ using ServiceStack;
 
 namespace ServiceStackWebApp.ServiceInterface
 {
-    public class UserSession : AuthUserSession
+    public class USession : AuthUserSession
     {
         
     }

@@ -68,7 +68,7 @@
     <Compile Include="TestServices.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserInfo.cs" />
-    <Compile Include="UserSession.cs" />
+    <Compile Include="USession.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
