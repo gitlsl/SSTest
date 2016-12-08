@@ -9,10 +9,10 @@ using ServiceStack.Model;
 namespace ServiceStackWebApp.ServiceModel
 {
 
-    public class SoftInfo : IHasLongId
+    public class SoftInfo : IHasIntId
     {
         [AutoIncrement]
-        public long Id { get; set; }
+        public int Id { get; set; }
         [Index]
         public string Guid { get; set; }
         [Index]

@@ -27,7 +27,7 @@ namespace ServiceStackWebApp.ServiceInterface
             var item  = request.ConvertTo<SoftInfo>();
             item.Auther = "liu";
             item.Guid = Guid.NewGuid().ToString("N");
-            item.Id = Db.Insert(item, true);
+            item.Id = (int)Db.Insert(item, true);
 
             SoftKey key = new SoftKey()
             {
