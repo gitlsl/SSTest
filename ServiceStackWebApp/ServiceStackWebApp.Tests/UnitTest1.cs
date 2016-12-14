@@ -35,7 +35,7 @@ namespace ServiceStackWebApp.Tests
         {
             var service = appHost.Container.Resolve<TestServices>();
 
-            var response = (HelloResponse)service.Any(new Test { Name = "World" });
+            var response = (TestResponse)service.Any(new Test { Name = "World" });
 
             Assert.That(response.Result, Is.EqualTo("Test, World!"));
         }

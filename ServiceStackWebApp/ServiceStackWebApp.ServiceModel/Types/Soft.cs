@@ -13,7 +13,7 @@ namespace ServiceStackWebApp.ServiceModel
     {
         [AutoIncrement]
         public int Id { get; set; }
-        [Index]
+        [Index(true)]
         public string Guid { get; set; }
         [Index]
         public string Name { get; set; }
@@ -28,11 +28,11 @@ namespace ServiceStackWebApp.ServiceModel
         
     }
 
-    public class SoftKey:IHasLongId
+    public class SoftKey: IHasIntId
     {
         [AutoIncrement]
-        public long Id { get; set; }
-        [Index]
+        public int Id { get; set; }
+        [Index(true)]
         public string Key { get; set; }
         public string SoftGuid { get; set; }
         public string Auther { get; set; }
@@ -41,7 +41,7 @@ namespace ServiceStackWebApp.ServiceModel
         public DateTime? CreateTime { get; set; } = DateTime.Now;
         public DateTime? EndTime { get; set; }
         public DateTime? UsedTime { get; set; }
-        public string User { get; set; }
+        public string UsedBy { get; set; }
     }
 
     public enum SoftKeyType : short
